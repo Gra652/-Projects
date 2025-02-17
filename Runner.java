@@ -1,107 +1,53 @@
-// Updated Pet.java
-public class Pet {
-    // Private data members
-    private String name;
-    private String type;
-    private int age;
-
-    // Default constructor
-    public Pet() {
-        setName("Unknown");
-        setType("Animal");
-        setAge(1); // Default age
-    }
-
-    // Custom constructor
-    public Pet(String name, String type, int age) {
-        setName(name);
-        setType(type);
-        setAge(age);
-    }
-
-    // Mutator (set) method for name
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    // Accessor (get) method for name
-    public String getName() {
-        return name;
-    }
-
-    // Mutator (set) method for type
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    // Accessor (get) method for type
-    public String getType() {
-        return type;
-    }
-
-    // Mutator (set) method for age
-    public void setAge(int age) {
-        if (age > 0) {
-            this.age = age;
-        } else {
-            this.age = 1; // Default age if invalid
-        }
-    }
-
-    // Accessor (get) method for age
-    public int getAge() {
-        return age;
-    }
-
-    // Custom method to let the pet "speak"
-    public String speak() {
-        if (type.equalsIgnoreCase("dog")) {
-            return "Woof";
-        } else if (type.equalsIgnoreCase("cat")) {
-            return "Meow";
-        } else {
-            return "Default sound";
-        }
-    }
-
-    // toString method to return object state as a string
-    @Override
-    public String toString() {
-        String info = "Pet Information:\n";
-        info += "Type: " + getType() + "\n";
-        info += "Name: " + getName() + "\n";
-        info += "Sound: " + speak() + "\n";
-        info += "Age: " + getAge() + "\n";
-        return info;
-    }
-}
-
-// Runner.java
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 public class Runner {
     public static void main(String[] args) {
+        // Instantiate the Tests object
+        Tests testScores = new Tests();
+
+        // Call the method to compute the average
+        testScores.getAverage();
+
+        // Print the results
+        System.out.println(testScores.toString());
+    }
+}
+
+class Tests {
+    private double average;
+
+    // Method to calculate the average, using void as the return type
+    public void getAverage() {
         Scanner scanner = new Scanner(System.in);
+        double sum = 0;
+        int count = 0;
 
-        // First Pet object using default constructor
-        Pet pet1 = new Pet();
-        System.out.println(pet1);
+        System.out.println("Enter test scores (-1 to quit): ");
+        int score = scanner.nextInt();
 
-        // Second Pet object using custom constructor
-        Pet pet2 = new Pet("Buster", "Dog", 11);
-        System.out.println(pet2);
+        while (score != -1) {
+            sum += score;
+            count++;
+            System.out.println("Enter test scores (-1 to quit): ");
+            score = scanner.nextInt();
+        }
 
-        // Third Pet object using user input
-        System.out.println("Enter animal type:");
-        String type = scanner.nextLine();
-        System.out.println("Enter animal name:");
-        String name = scanner.nextLine();
-        System.out.println("Enter animal age:");
-        int age = scanner.nextInt();
-
-        Pet pet3 = new Pet(name, type, age);
-        System.out.println(pet3);
+        // Avoid division by zero
+        if (count == 0) {
+            average = Double.NaN;  // Not-a-Number (NaN) occurs when dividing by zero
+        } else {
+            average = sum / count;
+        }
 
         scanner.close();
+    }
+
+    // toString method to format and display the average
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return "The average of the " + (Double.isNaN(average) ? "0" : (int) (average * 0 + 1)) 
+               + " scores entered is " + (Double.isNaN(average) ? "NaN" : df.format(average)) + ".";
     }
 }
