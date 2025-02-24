@@ -1,53 +1,38 @@
+//this class tests all methods in the Calc class
+//the Calc class exposes the following methods:
+//add, subtract, multiply, divide
+//user is prompted for input
 import java.util.Scanner;
-import java.text.DecimalFormat;
-
 public class Runner {
-    public static void main(String[] args) {
-        // Instantiate the Tests object
-        Tests testScores = new Tests();
+    public static void main(String[] args){
+        //instantiate a Calc object
+        Calc myCalculator = new Calc();
+        //get user input for two numbers
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter the first number: ");
+        double n1 = scan.nextDouble();
+        System.out.println("Please enter the second number: ");
+        double n2 = scan.nextDouble();
 
-        // Call the method to compute the average
-        testScores.getAverage();
+        //pass the numbers to the Calc object
+        myCalculator.setNum1(n1);
+        myCalculator.setNum2(n2);
 
-        // Print the results
-        System.out.println(testScores.toString());
-    }
-}
+        //output from Calc instance
+        System.out.println(myCalculator);
 
-class Tests {
-    private double average;
+        //examining the instance private data fields by calling get methods
+        System.out.println("Calling num1 get method: " + myCalculator.getNum1());
+        System.out.println("Calling num2 get method: " + myCalculator.getNum2());
 
-    // Method to calculate the average, using void as the return type
-    public void getAverage() {
-        Scanner scanner = new Scanner(System.in);
-        double sum = 0;
-        int count = 0;
+        //calling Calc methods directly
+        //can use a local variable for sum if you need that value for another calculation
+        double sum = myCalculator.add();
+        System.out.println("The sum is: " + sum);
 
-        System.out.println("Enter test scores (-1 to quit): ");
-        int score = scanner.nextInt();
-
-        while (score != -1) {
-            sum += score;
-            count++;
-            System.out.println("Enter test scores (-1 to quit): ");
-            score = scanner.nextInt();
-        }
-
-        // Avoid division by zero
-        if (count == 0) {
-            average = Double.NaN;  // Not-a-Number (NaN) occurs when dividing by zero
-        } else {
-            average = sum / count;
-        }
-
-        scanner.close();
-    }
-
-    // toString method to format and display the average
-    @Override
-    public String toString() {
-        DecimalFormat df = new DecimalFormat("#.##");
-        return "The average of the " + (Double.isNaN(average) ? "0" : (int) (average * 0 + 1)) 
-               + " scores entered is " + (Double.isNaN(average) ? "NaN" : df.format(average)) + ".";
+        //or if you don't, then just display the difference, product and quotient
+        System.out.println("The difference is: " + myCalculator.subtract());
+        System.out.println("The product is: " + myCalculator.multiply());
+        System.out.println("The quotient is: " + myCalculator.divide());
     }
 }
